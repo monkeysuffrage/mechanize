@@ -438,7 +438,8 @@ class Mechanize::HTTP::Agent
     log.debug('gzip response') if log
 
     zio = Zlib::GzipReader.new body_io
-    out_io = auto_io 'mechanize-gunzip', 16384, zio
+    random_string = (0...8).map { (65 + rand(26)).chr }.join
+    out_io = auto_io "mechanize-gunzip-#{random_string}", 16384, zio
     zio.finish
 
     return out_io
